@@ -7,10 +7,29 @@ export default function HeroSection() {
   return (
     <div className="relative w-full h-screen overflow-hidden text-white bg-[#5BA4D3]">
 
+      <style>
+        {`
+          @keyframes slideRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+          }
+        `}
+      </style>
+
       {/* Background Watermark Text */}
-      <div className="absolute top-[60%] lg:top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center text-[22vw] md:text-[14vw] font-black uppercase whitespace-nowrap tracking-tighter select-none pointer-events-none z-0 leading-none flex justify-center gap-4 opacity-80 lg:opacity-100">
-        <span className="text-white">DIGITAL</span>
-        <span style={{ color: '#CCFF00' }}>SURVEY</span>
+      <div className="absolute top-[60%] lg:top-[45%] -translate-y-1/2 left-0 w-full text-[22vw] md:text-[14vw] font-black uppercase whitespace-nowrap tracking-tighter select-none pointer-events-none z-0 leading-none opacity-80 lg:opacity-100 flex overflow-hidden">
+        <div className="flex" style={{ animation: 'slideRight 30s linear infinite', width: 'max-content' }}>
+          {/* First Copy */}
+          <div className="flex gap-4 pr-12 md:pr-24">
+            <span className="text-white">DIGITAL</span>
+            <span style={{ color: '#CCFF00' }}>SURVEY</span>
+          </div>
+          {/* Second Copy */}
+          <div className="flex gap-4 pr-12 md:pr-24">
+            <span className="text-white">DIGITAL</span>
+            <span style={{ color: '#CCFF00' }}>SURVEY</span>
+          </div>
+        </div>
       </div>
 
       {/* Navigation Header */}
@@ -76,7 +95,7 @@ export default function HeroSection() {
       </header>
 
       {/* Floating Mascot - positioned carefully for mobile */}
-      <div className="absolute bottom-[24%] lg:bottom-18 left-1/2 -translate-x-1/2 z-10 w-[220px] sm:w-[300px] lg:w-[450px] xl:w-[500px] pointer-events-none flex justify-center items-end">
+      <div className="absolute bottom-[24%] lg:bottom-18 left-1/2 -translate-x-1/2 z-10 w-[320px] sm:w-[300px] lg:w-[450px] xl:w-[500px] pointer-events-none flex justify-center items-end">
         <img src="/elephant.png" alt="Digital Survey Mascot" className="w-full h-auto object-contain drop-shadow-2xl" />
       </div>
 
