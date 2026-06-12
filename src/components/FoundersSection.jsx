@@ -86,11 +86,11 @@ export default function FoundersSection() {
   const currentFounder = foundersData[currentIndex];
 
   return (
-    <section ref={sectionRef} className="w-full min-h-[800px] bg-gradient-to-br from-[#EBF8FD] via-[#F4FBFE] to-[#DDF1FA] py-20 px-6 md:px-16 lg:px-24 flex items-center justify-center overflow-hidden font-sans">
+    <section id="founders" ref={sectionRef} className="w-full min-h-[800px] bg-gradient-to-br from-[#EBF8FD] via-[#F4FBFE] to-[#DDF1FA] py-20 px-6 md:px-16 lg:px-24 flex items-center justify-center overflow-hidden font-sans">
       <div className="w-full max-w-7xl flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
         
         {/* Left Content (Text) */}
-        <div ref={textRef} className="w-full lg:w-[55%] flex flex-col items-start opacity-0">
+        <div ref={textRef} className="w-full lg:w-[55%] flex flex-col items-start">
           <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-2 flex items-center gap-3 tracking-tight">
             Hello <span className="text-4xl">👋</span>
           </h2>
@@ -129,7 +129,7 @@ export default function FoundersSection() {
         </div>
 
         {/* Right Content (Image) */}
-        <div ref={imageRef} className="w-full lg:w-[45%] h-[300px] sm:h-[400px] lg:h-[700px] flex items-end justify-center relative opacity-0 mt-8 lg:mt-0">
+        <div ref={imageRef} className="w-full lg:w-[45%] h-[300px] sm:h-[400px] lg:h-[700px] flex items-end justify-center relative mt-8 lg:mt-0">
           {/* Subtle glow behind the image */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-white/40 blur-3xl rounded-full z-0" />
           
