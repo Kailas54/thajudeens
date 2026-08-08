@@ -25,7 +25,7 @@ export default function FeedPage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Founders Section */}
+      {/* About / Leadership Section */}
       <FoundersSection />
 
       {/* Services Section */}

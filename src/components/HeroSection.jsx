@@ -13,6 +13,12 @@ export default function HeroSection() {
             0% { transform: translateX(-50%); }
             100% { transform: translateX(0%); }
           }
+
+          .hero-logo-white-blend {
+            mix-blend-mode: screen;
+            opacity: 0.52;
+            filter: grayscale(100%) brightness(1.55) contrast(0.82);
+          }
         `}
       </style>
 
@@ -35,14 +41,23 @@ export default function HeroSection() {
       {/* Navigation Header */}
       <header className="absolute top-0 left-0 w-full z-40 px-5 py-4 md:px-10 md:py-6">
         <div className="flex justify-between items-center">
-          <div className="flex flex-col leading-none">
-            <span className="text-lg md:text-2xl font-black tracking-tighter text-white">THAJUDEENS</span>
-            <span style={{ color: '#CCFF00' }} className="text-[9px] md:text-xs font-bold tracking-widest mt-1">DIGISURVEY & DOCUMENTATION</span>
+          <div className="flex items-center gap-3 md:gap-4">
+            <img
+              src="/backnew.png"
+              alt="Thajudeens Logo"
+              className="w-10 h-10 md:w-14 md:h-14 object-contain shrink-0"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
+            <div className="flex flex-col leading-none">
+              <span className="text-lg md:text-2xl font-black tracking-tighter text-white">THAJUDEENS</span>
+              <span style={{ color: '#CCFF00' }} className="text-[9px] md:text-xs font-bold tracking-widest mt-1">DIGITAL SURVEY</span>
+            </div>
           </div>
 
           {/* Desktop nav */}
           <ul className="hidden lg:flex gap-10 list-none items-center text-sm">
             <li className="font-bold"><a href="#main" className="text-white hover:text-white">Main</a></li>
+            <li className="opacity-85 hover:opacity-100"><a href="#about" className="text-white hover:text-white">About</a></li>
             <li className="opacity-85 hover:opacity-100"><a href="#services" className="text-white hover:text-white">Services</a></li>
             <li className="opacity-85 hover:opacity-100"><a href="#pricing" className="text-white hover:text-white">Pricing</a></li>
             <li className="opacity-85 hover:opacity-100 bg-white/10 hover:bg-white/20 transition px-3 py-1.5 rounded-md text-xs font-black uppercase tracking-wider">
@@ -87,6 +102,7 @@ export default function HeroSection() {
         <div className={`lg:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-64 mt-4' : 'max-h-0'}`}>
           <div className="bg-white/15 backdrop-blur-xl rounded-2xl border border-white/20 px-5 py-4 flex flex-col gap-4">
             <a href="#main" onClick={() => setMenuOpen(false)} className="text-white font-bold text-base border-b border-white/20 pb-3">Main</a>
+            <a href="#about" onClick={() => setMenuOpen(false)} className="text-white/90 font-medium text-base border-b border-white/20 pb-3">About</a>
             <a href="#services" onClick={() => setMenuOpen(false)} className="text-white/90 font-medium text-base border-b border-white/20 pb-3">Services</a>
             <a href="#pricing" onClick={() => setMenuOpen(false)} className="text-white/90 font-medium text-base border-b border-white/20 pb-3">Pricing</a>
             <Link to="/admin/login" onClick={() => setMenuOpen(false)} className="text-white font-black text-sm uppercase tracking-widest bg-white/20 rounded-xl px-4 py-2 text-center">Admin Panel</Link>
@@ -94,9 +110,13 @@ export default function HeroSection() {
         </div>
       </header>
 
-      {/* Floating Mascot - positioned carefully for mobile */}
-      <div className="absolute bottom-[24%] lg:bottom-18 left-1/2 -translate-x-1/2 z-10 w-[320px] sm:w-[300px] lg:w-[450px] xl:w-[500px] pointer-events-none flex justify-center items-end">
-        <img src="/elephant.png" alt="Digital Survey Mascot" className="w-full h-auto object-contain drop-shadow-2xl" />
+      {/* Floating Mascot — white frosted blend, no background box */}
+      <div className="absolute top-[60%] lg:top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2] w-[300px] sm:w-[340px] lg:w-[440px] xl:w-[500px] pointer-events-none">
+        <img
+          src="/backnew.png"
+          alt="Digital Survey Mascot"
+          className="w-full h-auto object-contain hero-logo-white-blend"
+        />
       </div>
 
       {/* ── Left side: Headline & Button ── */}
@@ -195,7 +215,7 @@ export default function HeroSection() {
       {/* See More — bottom center */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20">
         <a
-          href="#more"
+          href="#about"
           className="bg-gradient-to-br from-[#EBF8FD] via-[#F4FBFE] to-[#DDF1FA] text-black font-extrabold text-[11px] sm:text-xs px-8 pt-3 pb-2 lg:px-10 lg:pt-4 lg:pb-3 rounded-t-[20px] lg:rounded-t-[30px] shadow-[0_-5px_15px_rgba(0,0,0,0.1)] no-underline flex flex-col items-center hover:-translate-y-1 transition-transform cursor-pointer"
         >
           See more

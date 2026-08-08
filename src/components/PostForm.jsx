@@ -115,32 +115,43 @@ export default function PostForm({ initialData = null, isEdit = false }) {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      const isVideo = file.type.startsWith('video/');
-      setMediaFile(file);
-      setMediaType(isVideo ? 'video' : 'image');
-      if (!isFirebaseConfigured) {
-        const base64 = await convertToBase64(file);
-        setMediaUrl(base64);
-      } else {
-        setMediaUrl(URL.createObjectURL(file));
-      }
+      await processSelectedFile(e.dataTransfer.files[0]);
     }
   };
 
   const handleFileChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const isVideo = file.type.startsWith('video/');
-      setMediaFile(file);
-      setMediaType(isVideo ? 'video' : 'image');
-      if (!isFirebaseConfigured) {
-        const base64 = await convertToBase64(file);
-        setMediaUrl(base64);
-      } else {
-        setMediaUrl(URL.createObjectURL(file));
-      }
+      await processSelectedFile(e.target.files[0]);
     }
+  };
+
+  const processSelectedFile = async (file) => {
+    const isVideo = file.type.startsWith('video/');
+    setMediaFile(file);
+    setMediaType(isVideo ? 'video' : 'image');
+
+    if (!isFirebaseConfigured) {
+      if (isVideo) {
+        alert('Video uploads require Firebase and Cloudinary. Demo mode only supports images.');
+        setMediaFile(null);
+        setMediaUrl('');
+        return;
+      }
+
+      try {
+        const compressed = await compressImage(file, 900, 0.72);
+        const base64 = await convertToBase64(compressed);
+        setMediaUrl(base64);
+      } catch (err) {
+        console.error('Failed to process image for demo storage:', err);
+        alert('Could not process that image. Try a smaller JPG or PNG.');
+        setMediaFile(null);
+        setMediaUrl('');
+      }
+      return;
+    }
+
+    setMediaUrl(URL.createObjectURL(file));
   };
 
   const handleTagKeyDown = (e) => {
@@ -198,7 +209,17 @@ export default function PostForm({ initialData = null, isEdit = false }) {
           postsList.unshift(mockPost);
         }
 
-        localStorage.setItem('mock_survey_posts', JSON.stringify(postsList));
+        try {
+          localStorage.setItem('mock_survey_posts', JSON.stringify(postsList));
+        } catch (storageErr) {
+          if (storageErr?.name === 'QuotaExceededError') {
+            throw new Error(
+              'Browser storage is full. The image is too large for demo mode — try a smaller image, or set up Firebase in a .env file for full uploads.'
+            );
+          }
+          throw storageErr;
+        }
+
         window.dispatchEvent(new Event('mock-posts-updated'));
         navigate('/admin/posts');
         return;
@@ -226,7 +247,7 @@ export default function PostForm({ initialData = null, isEdit = false }) {
 
         try {
           setUploadProgress(60);
-          finalMediaUrl = await uploadImage(fileToUpload);
+          finalMediaUrl = await uploadImage(fileToUpload, mediaType);
           setUploadProgress(90);
         } catch (uploadErr) {
           console.error("Cloudinary upload failed:", uploadErr);
@@ -257,8 +278,15 @@ export default function PostForm({ initialData = null, isEdit = false }) {
       setUploadProgress(100);
       navigate('/admin/posts');
     } catch (err) {
-      console.error("Error saving post:", err);
-      alert("Failed to save post.");
+      console.error('Error saving post:', err);
+      const code = err?.code || '';
+      if (code === 'permission-denied') {
+        alert(
+          'Firestore blocked this save. Log in with a Firebase admin account and publish the firestore.rules file in your Firebase project (Firebase Console → Firestore → Rules).'
+        );
+      } else {
+        alert(err.message || 'Failed to save post.');
+      }
     } finally {
       setUploading(false);
     }
